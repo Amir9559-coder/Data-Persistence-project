@@ -14,14 +14,18 @@ public class MainManager : MonoBehaviour
     public GameObject GameOverText;
     
     private bool m_Started = false;
-    private int m_Points;
+    public static int m_Points;
     
     private bool m_GameOver = false;
 
-    
+    //writing the name what player wrote in blank
+    [SerializeField] Text bestScoreTx;
+    private Menu menuCs;
     // Start is called before the first frame update
     void Start()
     {
+        menuCs = GameObject.Find("Menu Manager").GetComponent<Menu>();
+        bestScoreTx.text = "Best Score :" + menuCs.StoreText() + " :" + 0;
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -66,6 +70,8 @@ public class MainManager : MonoBehaviour
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
+        bestScoreTx.text = "Best Score :" + menuCs.StoreText() + " :" + m_Points;
+
     }
 
     public void GameOver()
