@@ -30,6 +30,7 @@ public class Menu : MonoBehaviour
     {
         SaveData data = new SaveData();
         data.bestScoreName = bestScoreName;
+        data.bestScore = bestScore;
         string json = JsonUtility.ToJson(data);
         string path = Application.persistentDataPath + "/savefile.json";
         File.WriteAllText(path, json);
@@ -47,13 +48,12 @@ public class Menu : MonoBehaviour
         else
         {
             bestScore = 0;
-            bestScoreName = nameInput.text;
+            bestScoreName = nameInputTX;
         }
     }
     public void StartButton()
     {
         nameInputTX = nameInput.text;
-        Debug.Log(nameInputTX);
         LoadText();
         SceneManager.LoadScene(1);
     }

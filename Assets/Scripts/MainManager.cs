@@ -88,6 +88,6 @@ public class MainManager : MonoBehaviour
             menuCs.bestScoreName = menuCs.nameInputTX;
             menuCs.SaveText();
         }
-        
+        m_Points = 0;
     }
 }
