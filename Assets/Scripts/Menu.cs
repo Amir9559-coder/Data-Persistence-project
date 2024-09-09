@@ -4,31 +4,57 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEditor;
+using System.IO;
 
 public class Menu : MonoBehaviour
 {
     [SerializeField] Text nameInput;
-    //What player will type is name text.
-    public Text nameText;
+    public string nameInputTX;
+    public string bestScoreName;
+    public int bestScore;
     // Start is called before the first frame update
     void Start()
     {
-        nameText = GetComponent<Text>();
+        bestScoreName = GetComponent<Text>().text;
+        bestScore = 0;
         DontDestroyOnLoad(gameObject);
     }
-
-    // Update is called once per frame
-    void Update()
+    [System.Serializable]
+    class SaveData
     {
-        StoreText();
+        public string bestScoreName;
+        public int bestScore;
     }
-    public string StoreText()
+
+    public void SaveText()
     {
-        nameText.text = nameInput.text;
-        return nameText.text;
+        SaveData data = new SaveData();
+        data.bestScoreName = bestScoreName;
+        string json = JsonUtility.ToJson(data);
+        string path = Application.persistentDataPath + "/savefile.json";
+        File.WriteAllText(path, json);
+    }
+    public void LoadText()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+        if(File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
+            bestScoreName = data.bestScoreName;
+            bestScore = data.bestScore;
+        }
+        else
+        {
+            bestScore = 0;
+            bestScoreName = nameInput.text;
+        }
     }
     public void StartButton()
     {
+        nameInputTX = nameInput.text;
+        Debug.Log(nameInputTX);
+        LoadText();
         SceneManager.LoadScene(1);
     }
     public void ExitButton()

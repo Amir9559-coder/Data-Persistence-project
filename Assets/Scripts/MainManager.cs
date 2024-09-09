@@ -21,11 +21,11 @@ public class MainManager : MonoBehaviour
     //writing the name what player wrote in blank
     [SerializeField] Text bestScoreTx;
     private Menu menuCs;
+
     // Start is called before the first frame update
     void Start()
     {
-        menuCs = GameObject.Find("Menu Manager").GetComponent<Menu>();
-        bestScoreTx.text = "Best Score :" + menuCs.StoreText() + " :" + 0;
+       
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -40,6 +40,11 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+    }
+    private void Awake()
+    {
+        menuCs = GameObject.Find("Menu Manager").GetComponent<Menu>();
+        bestScoreTx.text = "Best Score : " + menuCs.bestScoreName + ":" + menuCs.bestScore;
     }
 
     private void Update()
@@ -70,7 +75,6 @@ public class MainManager : MonoBehaviour
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
-        bestScoreTx.text = "Best Score :" + menuCs.StoreText() + " :" + m_Points;
 
     }
 
@@ -78,5 +82,12 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        if(m_Points > menuCs.bestScore)
+        {
+            menuCs.bestScore = m_Points;
+            menuCs.bestScoreName = menuCs.nameInputTX;
+            menuCs.SaveText();
+        }
+        
     }
 }

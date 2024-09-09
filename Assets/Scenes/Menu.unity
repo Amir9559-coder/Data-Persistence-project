@@ -1074,7 +1074,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameInput: {fileID: 195372976}
-  nameText: {fileID: 195372976}
+  nameInputTX: 
+  bestScoreName: 
+  bestScore: 0
 --- !u!114 &1550104443
 MonoBehaviour:
   m_ObjectHideFlags: 0
